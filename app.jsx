@@ -1,10 +1,28 @@
 function Application() {
     return (
-        <div>
-            <h1>
-                <strong>Hello!!!</strong>
-                <p>Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit .</p>
-            </h1>
+        <div className="scoreboard">
+            <div className="header">
+                <h1>ScoreBoard</h1>
+            </div>
+
+            <div className="players">
+                <div className="player">
+                    <div className="player-name">
+                        stepas
+                    </div>
+                    <div className="player-score">
+                        <div className="counter">
+                            <button className="counter-action decrement">
+                                -
+                            </button>
+                            <div className="counter-score">55</div>
+                            <button className="counter-action increment">
+                                +
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
