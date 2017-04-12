@@ -1,3 +1,19 @@
+var PLAYERS = [
+    {
+        name: "Stepas",
+        score: 56
+    }, {
+        name: "Jim Hoskins",
+        score: 34
+    }, {
+        name: "Andrew Chalkey",
+        score: 40
+    }, {
+        name: "Jim Carrey",
+        score: 51
+    }
+]
+
 function Header(props) {
     return (
         <div className="header">
@@ -10,34 +26,61 @@ Header.propTypes = {
     title: React.PropTypes.string.isRequired
 };
 
+function Counter(props) {
+    return (
+        <div className="counter">
+            <button className="counter-action decrement">
+                -
+            </button>
+            <div className="counter-score">
+                {props.score}
+            </div>
+            <button className="counter-action increment">
+                +
+            </button>
+        </div>
+    );
+}
+Counter.propTypes = {
+    score: React.PropTypes.number.isRequired
+};
+
+function Player(props) {
+    return (
+        <div className="player">
+            <div className="player-name">
+                {props.name}
+            </div>
+            <div className="player-score">
+                <Counter score="32"/>
+            </div>
+        </div>
+    );
+}
+
+Player.propTypes = {
+    name: React.PropTypes.string.isRequired,
+    score: React.PropTypes.number.isRequired
+};
+
 function Application(props) {
     return (
         <div className="scoreboard">
             <Header title={props.title}/>
             <div className="players">
-                <div className="player">
-                    <div className="player-name">
-                        stepas
-                    </div>
-                    <div className="player-score">
-                        <div className="counter">
-                            <button className="counter-action decrement">
-                                -
-                            </button>
-                            <div className="counter-score">55</div>
-                            <button className="counter-action increment">
-                                +
-                            </button>
-                        </div>
-                    </div>
-                </div>
+                <Player name="Stepas" score="45"/>
             </div>
         </div>
     );
 }
 
 Application.propTypes = {
-    title: React.PropTypes.string
+    title: React.PropTypes.string,
+    players: React
+        .PropTypes
+        .arrayOf(React.PropTypes.shape({name: React.PropTypes.string.isRequired, score: React.PropTypes.number.isRequired}))
+        .isRequired
+
 };
 
 Application.defaultProps = {
