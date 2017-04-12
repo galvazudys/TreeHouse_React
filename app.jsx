@@ -1,18 +1,22 @@
 var PLAYERS = [
     {
         name: "Stepas",
-        score: 56
+        score: 56,
+        id: 1
     }, {
         name: "Jim Hoskins",
-        score: 34
+        score: 34,
+        id: 2
     }, {
         name: "Andrew Chalkey",
-        score: 40
+        score: 40,
+        id: 3
     }, {
         name: "Jim Carrey",
-        score: 51
+        score: 51,
+        id: 4
     }
-]
+];
 
 function Header(props) {
     return (
@@ -52,7 +56,7 @@ function Player(props) {
                 {props.name}
             </div>
             <div className="player-score">
-                <Counter score="32"/>
+                <Counter score={32}/>
             </div>
         </div>
     );
@@ -68,7 +72,11 @@ function Application(props) {
         <div className="scoreboard">
             <Header title={props.title}/>
             <div className="players">
-                <Player name="Stepas" score="45"/>
+                {props
+                    .players
+                    .map(function (player) {
+                        return <Player name={player.name} score={player.score} key={player.id}/>
+                    })}
             </div>
         </div>
     );
@@ -78,7 +86,7 @@ Application.propTypes = {
     title: React.PropTypes.string,
     players: React
         .PropTypes
-        .arrayOf(React.PropTypes.shape({name: React.PropTypes.string.isRequired, score: React.PropTypes.number.isRequired}))
+        .arrayOf(React.PropTypes.shape({name: React.PropTypes.string.isRequired, score: React.PropTypes.number.isRequired, id: React.PropTypes.number.isRequired}))
         .isRequired
 
 };
@@ -88,4 +96,4 @@ Application.defaultProps = {
 };
 
 ReactDOM.render(
-    <Application/>, document.querySelector('#container'));
+    <Application players={PLAYERS}/>, document.querySelector('#container'));
