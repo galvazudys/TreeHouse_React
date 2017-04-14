@@ -1,3 +1,5 @@
+//what a hell
+
 var PLAYERS = [
     {
         name: "Stepas",
