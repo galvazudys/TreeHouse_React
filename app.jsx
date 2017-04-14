@@ -1,3 +1,5 @@
+//adding comments to test
+
 var PLAYERS = [
     {
         name: "Stepas",
