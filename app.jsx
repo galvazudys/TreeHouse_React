@@ -20,6 +20,61 @@ var PLAYERS = [
 
 var nextId = 5;
 
+var Stopwatch = React.createClass({
+    getInitialState: function () {
+        return {running: false, elapsedTime:0, previousTime:0};
+    },
+
+    componentDidMount:function(){
+        this.interval=setInterval(this.onTick,100);
+    },
+
+    componentWillMount:function(){
+        clearInterval(this.interval);
+    },
+
+    onTick:function(){
+        if(this.state.running){
+            var now = Date.now();
+            this.setState({
+                previousTime:now,
+                elapsedTime: this.state.elapsedTime + (now - this.state.previousTime)
+            });
+        }
+    },
+
+    onStart:function(){
+        this.setState({running:true, previousTime:Date.now()});
+    },
+
+    onStop:function(){
+        this.setState({running:false});
+    },
+
+    onReset:function(){
+        this.setState({
+            elapsedTime:0,
+            previousTime:Date.now()
+        });
+    },
+
+    render: function () {
+        var seconds = Math.floor(this.state.elapsedTime / 1000);
+        return (
+            <div className="stopwatch">
+                <h2>StopWatch</h2>
+                <div className="stopwatch-time">
+                    {seconds}
+                </div>
+                {this.state.running
+                    ? <button onClick={this.onStop}>Stop</button>
+                    : <button onClick={this.onStart}>Start</button>}
+                <button onClick={this.onReset}>Reset</button>
+            </div>
+        );
+    }
+});
+
 var AddPlayerForm = React.createClass({
     propTypes: {
         onAdd: React.PropTypes.func.isRequired
@@ -87,6 +142,7 @@ function Header(props) {
         <div className="header">
             <Stats players={props.players}/>
             <h1>{props.title}</h1>
+            <Stopwatch/>
         </div>
     );
 }
@@ -142,7 +198,7 @@ Player.propTypes = {
     name: React.PropTypes.string.isRequired,
     score: React.PropTypes.number.isRequired,
     onScoreChange: React.PropTypes.func.isRequired,
-    onRemove:React.PropTypes.func.isRequired
+    onRemove: React.PropTypes.func.isRequired
 };
 
 var Application = React.createClass({
@@ -177,8 +233,11 @@ var Application = React.createClass({
         nextId += 1;
     },
 
-    onRemovePlayer:function(index){
-        this.state.players.splice(index,1);
+    onRemovePlayer: function (index) {
+        this
+            .state
+            .players
+            .splice(index, 1);
         this.setState(this.state);
     },
 
@@ -195,7 +254,9 @@ var Application = React.createClass({
                                 onScoreChange={function (delta) {
                                 this.onScoreChange(index, delta)
                             }.bind(this)}
-                                onRemove={function(){this.onRemovePlayer(index)}.bind(this)}
+                                onRemove={function () {
+                                this.onRemovePlayer(index)
+                            }.bind(this)}
                                 name={player.name}
                                 score={player.score}
                                 key={player.id}/>);
